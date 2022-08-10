@@ -1,0 +1,139 @@
+
+import random
+
+while True:
+
+    # introduction and asking users number of players, must be integer, must be 2-9
+
+    def start():
+        for i in range(25):
+            print("\n")
+        print("Welcome to Texas Hold'em Poker")
+        print("\nYou can play with 2 to 9 people")
+        player_num = 0
+        try:
+            player_num = int(input('\nEnter number of players: '))
+        except ValueError:
+            player_num = int(input('\nEnter number of players (2-9): '))
+        while player_num < 2 or player_num > 9:
+            player_num = int(input('\nEnter number of players (2-9): '))
+        return player_num
+    player_num = start()
+
+
+# asking users for player names
+
+    def people():
+        players = []
+        for i in range(player_num):
+            players.append(input("\nEnter name of the player: "))
+        print("\nPeople that are playing are: ")
+        for player in players:
+            print(player)
+        return players
+    players = people()
+
+
+# making my deck by combining suits and numbers
+
+    def deck_maker():
+        suits = ["Hearts", "Spades", "Clubs", "Diamonds"]
+        numbers = ["2", "3", "4", "5", "6", "7", "8", "9",
+                   "10", "Jack", "Queen", "King", "Ace"]
+        deck = []
+        for suit in suits:
+            for num in numbers:
+                deck.append(f'{num} of {suit}')
+        return deck
+    deck = deck_maker()
+
+# this picks cards from the deck
+# Then it removes them from the deck and appends them to the hand
+
+    def card_picker(hand):
+        card = random.choice(deck)
+        deck.remove(card)
+        (hand).append(card)
+
+# card_dealer prints the players hands and hides them
+
+    def card_dealer():
+        for i in range(player_num):
+            try:
+                input("\nPress enter to see your cards " + players[i])
+            except SyntaxError:
+                pass
+            print(player_cards[i])
+            try:
+                input("Press enter to hide your cards " + players[i])
+            except SyntaxError:
+                pass
+            for j in range(25):
+                print("\n")
+        bets()
+
+# flop prints the first three cards to be put down onto the table
+
+    def flop():
+        try:
+            input("\nPress enter to see flop")
+        except SyntaxError:
+            pass
+        print(flop_cards)
+        bets()
+
+# turn prints the fourth card for the table
+
+    def turn():
+        try:
+            input("\nPress enter to see turn")
+        except SyntaxError:
+            pass
+        print(turn_river_cards[0])
+        bets()
+
+# river prints the fifth card for the table
+
+    def river():
+        try:
+            input("\nPress enter to see river")
+        except SyntaxError:
+            pass
+        print(turn_river_cards[1])
+        bets()
+
+# bets prints "place your bets"
+
+    def bets():
+        print("\nplace your bets")
+
+# different hands that will be populated
+# this will be cards using card_picker and the looping statement below
+    player_cards = [[], [], [], [], [], [], [], [], []]
+    flop_cards = []
+    turn_river_cards = [[], []]
+
+# choosing cards using card_picker, appending them to the hands above,
+# this function decides the number of cards per hand
+    for i in range(player_num):
+        for j in range(2):
+            card_picker(player_cards[i])
+    for j in range(3):
+        card_picker(flop_cards)
+    for i in range(2):
+        for j in range(1):
+            card_picker(turn_river_cards[i])
+
+# user defined functions running, this below shows all the cards to the users
+    print(f"\nokay, dealing {player_num} hands")
+    card_dealer()
+    flop()
+    turn()
+    river()
+    print("\nReveal Your Cards")
+    print("\nThanks For Playing")
+
+# this loops the game if the users wishes
+    if not 'y' in input('Would you like to play again?\ntype y to '
+                        'play again, press anything to end:').lower():
+        break
